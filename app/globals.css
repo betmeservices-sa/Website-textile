@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+/* ══════════════════════════════════════════════════════════════
+   MPG Textile Chemicals · sistema de diseño
+   azul marino #013856 · gris carbón #323738 · teal #1C87AF
+   Motivo: la malla textil tejida del logotipo.
+   ══════════════════════════════════════════════════════════════ */
+@theme {
+  /* Marca */
+  --color-navy:      #013856;
+  --color-navy-900:  #01283C;
+  --color-navy-800:  #013049;
+  --color-navy-700:  #0A4A6B;
+  --color-charcoal:  #323738;
+
+  --color-teal:      #1C87AF;
+  --color-teal-600:  #1B6B96;
+  --color-teal-300:  #4FB4D6;
+  --color-teal-100:  #BFE3EF;
+
+  /* Tinta y texto */
+  --color-ink:       #0B2432;
+  --color-muted:     #567585;
+  --color-muted-2:   #8AA3B0;
+
+  /* Papel / fondos claros */
+  --color-paper:     #F3F8FA;
+  --color-paper-2:   #E8F1F5;
+  --color-paper-3:   #FBFDFE;
+
+  --color-line:      rgba(1, 56, 86, 0.10);
+  --color-line-dark: rgba(255, 255, 255, 0.12);
+
+  /* Tipografía */
+  --font-display: var(--font-archivo), system-ui, sans-serif;
+  --font-sans:    var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono:    var(--font-plex-mono), ui-monospace, monospace;
+}
+
+:root {
+  --grad-teal: linear-gradient(120deg, #4FB4D6 0%, #1C87AF 48%, #1B6B96 100%);
+  --grad-navy: linear-gradient(165deg, #013856 0%, #01283C 100%);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { box-sizing: border-box; }
+
+/* Estilos base en @layer base para que las utilidades (p.ej. text-white
+   sobre secciones navy) puedan sobreescribir el color de los titulares. */
+@layer base {
+  html {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    color: var(--color-navy);
+  }
+  ::selection { background: rgba(28, 135, 175, 0.28); color: #01283C; }
+}
+
+/* Lenis: deja que JS controle el scroll */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: var(--color-paper-2); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#1C87AF, #013856);
+  border-radius: 999px;
+  border: 3px solid var(--color-paper-2);
+}
+
+/* ── Grano sutil (textura de papel técnico) ── */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ══ Motivo de trama (warp/weft) a 45°, ecos de la malla del logo ══ */
+.weave-grid {
+  background-image:
+    repeating-linear-gradient(45deg,  rgba(1,56,86,0.055) 0 1px, transparent 1px 24px),
+    repeating-linear-gradient(-45deg, rgba(1,56,86,0.055) 0 1px, transparent 1px 24px);
+}
+.weave-grid-dark {
+  background-image:
+    repeating-linear-gradient(45deg,  rgba(255,255,255,0.06) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 26px);
+}
+/* desvanece la trama hacia los bordes */
+.weave-mask {
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 35%, transparent 100%);
+}
+
+/* rejilla ortogonal fina (planos claros) */
+.blueprint {
+  background-image:
+    linear-gradient(to right, rgba(1,56,86,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(1,56,86,0.05) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+
+/* ── Hilo teal decorativo ── */
+.thread-x {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-teal) 20%, var(--color-teal-600) 80%, transparent);
+}
+
+/* ── Texto en gradiente teal ── */
+.text-grad {
+  background: var(--grad-teal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.shiny {
+  background: linear-gradient(110deg, #1C87AF 30%, #7FD1E8 50%, #1C87AF 70%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 6s linear infinite;
+}
+
+/* ── Superficies ── */
+.glass {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--color-line);
+}
+.glass-dark {
+  background: rgba(1, 40, 60, 0.45);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--color-line-dark);
+}
+.card {
+  background: var(--color-paper-3);
+  border: 1px solid var(--color-line);
+  border-radius: 18px;
+}
+.border-grad {
+  position: relative;
+}
+.border-grad::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--grad-teal);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.glow-teal { box-shadow: 0 30px 70px -30px rgba(28,135,175,0.55); }
+.ring-teal { box-shadow: 0 0 0 1px rgba(28,135,175,0.35), 0 20px 50px -24px rgba(1,56,86,0.4); }
+
+/* eyebrow / spec label */
+.spec {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+/* halo teal grande (atmósfera) */
+.halo {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+/* ── Keyframes ── */
+@keyframes shine { to { background-position: -200% center; } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+@keyframes drift { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(24px,-30px) scale(1.06); } }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes weave-draw { from { stroke-dashoffset: var(--dash, 400); } to { stroke-dashoffset: 0; } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+.animate-float { animation: float 7s ease-in-out infinite; }
+.animate-drift { animation: drift 18s ease-in-out infinite; will-change: transform; }
+.animate-spin-slow { animation: spin-slow 40s linear infinite; }
+
+.marquee-track { display: flex; width: max-content; animation: marquee 34s linear infinite; }
+.marquee-track:hover { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float, .animate-drift, .animate-spin-slow, .marquee-track, .shiny { animation: none !important; }
+  html { scroll-behavior: auto; }
+}
