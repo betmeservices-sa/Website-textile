@@ -39,3 +39,5 @@ next-env.d.ts
 # local dev logs / verification artifacts
 *.log
 /.playwright-mcp
+
+.vercel
