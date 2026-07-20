@@ -1,46 +1,45 @@
 import Link from 'next/link'
-import MeshWeave from './MeshWeave'
+import Image from 'next/image'
 
 type Props = {
-  variant?: 'light' | 'dark' // light = para fondos oscuros (texto blanco)
+  // light = para fondos oscuros (hero/footer): logo blanco directo.
+  // dark  = para fondos claros (navbar con scroll): chip navy para contraste.
+  variant?: 'light' | 'dark'
   showTagline?: boolean
   href?: string | null
   className?: string
   markSize?: number
 }
 
-// Lockup de marca: malla tejida + wordmark MPG + tagline "Textile Chemicals".
-// Reconstruido en vector para recolorear y animar; el arte oficial vive en
-// /public/brand para usos que requieran el wordmark exacto.
+// Lockup oficial de marca (malla tejida + wordmark MPG® + "Textile Chemicals").
+// Arte blanco recortado a fondo transparente en /public/brand/mpg-lockup.png:
+// como toda superficie detrás es navy (hero, footer), calza sin costura; sobre
+// fondo claro (navbar con scroll) se apoya en un chip navy.
+const LOCKUP = { src: '/brand/mpg-lockup.png', w: 1266, h: 654 }
+
 export default function Logo({
   variant = 'dark',
-  showTagline = true,
   href = '/',
   className = '',
   markSize = 44,
 }: Props) {
-  const textColor = variant === 'light' ? 'text-white' : 'text-navy'
-  const tagColor = variant === 'light' ? 'text-teal-100/80' : 'text-muted'
-  const divider = variant === 'light' ? 'bg-white/25' : 'bg-navy/15'
+  const height = Math.round(markSize * 1.18)
+  const onLight = variant === 'dark' // fondo claro -> chip navy
 
   const inner = (
-    <span className={`inline-flex items-center gap-3 ${className}`}>
-      <MeshWeave className="shrink-0" style={{ width: markSize, height: markSize }} title="MPG" />
-      <span aria-hidden className={`h-9 w-px ${divider}`} />
-      <span className="flex flex-col leading-none">
-        <span
-          className={`font-display font-extrabold tracking-tight ${textColor}`}
-          style={{ fontSize: markSize * 0.62, letterSpacing: '-0.04em' }}
-        >
-          MPG
-          <sup className="align-super text-[0.38em] font-semibold opacity-70">®</sup>
-        </span>
-        {showTagline && (
-          <span className={`spec mt-1 ${tagColor}`} style={{ fontSize: markSize * 0.17 }}>
-            Textile&nbsp;Chemicals
-          </span>
-        )}
-      </span>
+    <span
+      className={`inline-flex items-center rounded-xl px-2.5 py-1.5 transition-colors duration-500 ${
+        onLight ? 'bg-navy' : 'bg-transparent'
+      } ${className}`}
+    >
+      <Image
+        src={LOCKUP.src}
+        alt="MPG Textile Chemicals"
+        width={LOCKUP.w}
+        height={LOCKUP.h}
+        priority
+        style={{ height: `${height}px`, width: 'auto' }}
+      />
     </span>
   )
 
